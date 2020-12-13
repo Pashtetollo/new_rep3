@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
+
 using namespace std;
+
 inline void output(int Arr[MATRIX_SIZE][MATRIX_SIZE]) {
 		for (int i = 0; i < MATRIX_SIZE ; i++)
 		{
@@ -13,11 +15,11 @@ inline void output(int Arr[MATRIX_SIZE][MATRIX_SIZE]) {
 		cout << "\n";
 	};
 
-inline	void input(int Arr[5][5])
+inline void input(int Arr[MATRIX_SIZE][MATRIX_SIZE])
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < MATRIX_SIZE; i++)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < MATRIX_SIZE; j++)
 			{
 				cin >>Arr[i][j];
 			}

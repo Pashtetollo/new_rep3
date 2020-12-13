@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
+
 using namespace std;
+
 inline float midArif(int i, int Arr[MATRIX_SIZE][MATRIX_SIZE])
 	{
 		int j = 0;
@@ -13,8 +15,7 @@ inline float midArif(int i, int Arr[MATRIX_SIZE][MATRIX_SIZE])
 		return sqrt(sum);
 	};
 
-
-inline 	float midArifSum (int Arr[MATRIX_SIZE][MATRIX_SIZE])
+inline float midArifSum (int Arr[MATRIX_SIZE][MATRIX_SIZE])
 	{
 		float sum_of_sum = 0;
 		for (int i = 0; i < MATRIX_SIZE ; i++)

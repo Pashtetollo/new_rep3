@@ -1,7 +1,9 @@
 #include <iostream>
 #include <math.h>
+
 using namespace std;
-inline int  bubblesort(int i, int Arr[MATRIX_SIZE][MATRIX_SIZE])
+
+inline int  bubblesort_all_rows_by_descending(int i, int Arr[MATRIX_SIZE][MATRIX_SIZE])
 	{
 		for (int j = 0; j < MATRIX_SIZE; j++)
 		{
@@ -20,6 +22,6 @@ inline int  bubblesort(int i, int Arr[MATRIX_SIZE][MATRIX_SIZE])
 				}
 			}
 		}
-		bubblesort(i - 1, Arr);
+		bubblesort_all_rows_by_descending(i - 1, Arr);
 }
 
