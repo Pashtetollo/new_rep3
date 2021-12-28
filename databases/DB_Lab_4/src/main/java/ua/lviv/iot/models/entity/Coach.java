@@ -1,27 +1,25 @@
 package ua.lviv.iot.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "coach")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Coach {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToMany
-    @JoinTable(name = "programs_has_coach",
-            joinColumns = { @JoinColumn(name = "fk_programs_id") },
-            inverseJoinColumns = { @JoinColumn(name = "fk_coach_id") })
-    private List<Program> programs = new ArrayList<>();
 
     @Column(name = "name")
     @NotNull
@@ -36,9 +34,4 @@ public class Coach {
 
     @Column(name = "price")
     private double price;
-
-    @Override
-    public String toString() {
-        return String.format("id: %s, name: %s, surname: %s, phone_number: %s, price: %s", id, name, surname, phoneNumber, price);
-    }
 }

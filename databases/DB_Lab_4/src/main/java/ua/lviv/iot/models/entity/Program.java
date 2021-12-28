@@ -1,23 +1,26 @@
 package ua.lviv.iot.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "programs")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Program {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToMany(mappedBy="programs")
-    private List<Coach> coaches = new ArrayList<>();
 
     @Column(name = "name")
     @NotNull
