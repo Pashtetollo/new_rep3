@@ -18,10 +18,9 @@ public class Exersice {
     @NotNull
     private String name;
 
-    @Column(name = "targeted_bodypart")
-    @NotNull
-    private String targeted_bodypart;
-
+    @ManyToOne
+    @JoinColumn(name = "targeted_bodypart", referencedColumnName = "id")
+    private MuscleGroup targeted_bodypart;
     @Override
     public String toString() {
         return String.format("id: %s, name: %s, targeted_bodypart: %s", id, name, targeted_bodypart);
