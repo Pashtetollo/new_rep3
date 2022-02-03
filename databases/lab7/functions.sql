@@ -1,23 +1,25 @@
-USE `university`;
+USE `Khomiakov_7_44`;
 set global log_bin_trust_function_creators = 1;
 DELIMITER $$
 
-DROP function IF EXISTS `count_avg_student_rank`;
+-- DROP function IF EXISTS `count_avg_student_rank`;
 
 CREATE FUNCTION `count_avg_student_rank` ()
 RETURNS INTEGER
 BEGIN
-	RETURN (select avg(student_rank) from student);
+	RETURN (select avg(student_ranking) from student);
 END$$
 
 
-DROP function IF EXISTS `select_towns`;
+-- DROP function IF EXISTS `select_town_name`;
 
-CREATE FUNCTION `select_towns` (middle_school_name varchar)
+CREATE FUNCTION `select_town_name` (middle_school_name varchar(45))
 RETURNS varchar(45)
 BEGIN
-	RETURN (select town.name from town join middle_school on  middle_school.Town_town_name = town.name
-    where  middle_school.Town_town_name = middle_school_name)
+	RETURN (select town.name from town
+    where  middle_school.town_id = town.town_id);
 END$$
 
 DELIMITER ;
+
+select * from student where student.student_ranking < (select count_avg_student_rank());

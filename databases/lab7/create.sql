@@ -1,99 +1,103 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-CREATE SCHEMA IF NOT EXISTS university DEFAULT CHARACTER SET utf8 ;
-USE university ;
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema Khomiakov_7_44
+-- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS university.`district` (
-  `district_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`district_name`))
+-- -----------------------------------------------------
+-- Schema Khomiakov_7_44
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `Khomiakov_7_44` DEFAULT CHARACTER SET utf8 ;
+USE `Khomiakov_7_44` ;
+
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`district`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`district` (
+  `district_id` INT AUTO_INCREMENT NOT NULL,
+  `district_name` VARCHAR(45) NULL,
+  PRIMARY KEY (`district_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS university.`Town` (
+
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`town`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`town` (
+  `town_id` INT AUTO_INCREMENT NOT NULL,
   `town_name` VARCHAR(45) NOT NULL,
-  `district_district_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`town_name`, `district_district_name`),
-  INDEX `fk_Town_district1_idx` (`district_district_name` ASC) VISIBLE,
-  CONSTRAINT `fk_Town_district1`
-    FOREIGN KEY (`district_district_name`)
-    REFERENCES `university
-`.`district` (`district_name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `district_id` INT NOT NULL,
+  PRIMARY KEY (`town_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS university.`group` (
+
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`student_group`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`student_group` (
+  `group_number` INT AUTO_INCREMENT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `number` INT NOT NULL,
-  `join_year` DATETIME NULL,
-  PRIMARY KEY (`number`))
+  `join_year` DATE NOT NULL,
+  PRIMARY KEY (`group_number`))
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS university.`student` (
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`student`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`student` (
+  `student_id` INT AUTO_INCREMENT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `surname` VARCHAR(45) NOT NULL,
-  `father_name` VARCHAR(45) NOT NULL,
-  `student_rank` INT NULL,
-  `birthday` DATETIME NULL,
-  `join_date` DATETIME NULL,
-  `student_ticket_number` INT NOT NULL,
-  `email` VARCHAR(30) NULL,
-  `Town_town_name` VARCHAR(45) NOT NULL,
+  `patronymic` VARCHAR(45) NOT NULL,
+  `student_ranking` INT NULL DEFAULT NULL,
+  `birthday` DATE NOT NULL,
+  `join_date` DATE NOT NULL,
+  `email` VARCHAR(30) NOT NULL,
+  `town_id` INT NOT NULL,
   `group_number` INT NOT NULL,
-  PRIMARY KEY (`student_ticket_number`, `Town_town_name`, `group_number`),
-  INDEX `fk_student_Town_idx` (`Town_town_name` ASC) VISIBLE,
-  INDEX `fk_student_group1_idx` (`group_number` ASC) VISIBLE,
-  CONSTRAINT `fk_student_Town`
-    FOREIGN KEY (`Town_town_name`)
-    REFERENCES university.`Town` (`town_name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_student_group1`
-    FOREIGN KEY (`group_number`)
-    REFERENCES `university
-`.`group` (`number`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `school_id` INT NOT NULL,
+  PRIMARY KEY (`student_id`))
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS university.`debts` (
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`debts`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`debts` (
+  `subject_id` INT AUTO_INCREMENT NOT NULL ,
   `subject` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`subject`))
+  PRIMARY KEY (`subject_id`))
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS university.`middle_school` (
-  `name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(45) NULL,
-  `Schoo_ head_credentials` VARCHAR(45) NULL,
-  `Town_town_name` VARCHAR(45) NOT NULL,
-  `Town_district_district_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`name`, `Town_town_name`, `Town_district_district_name`),
-  INDEX `fk_middle_school_Town1_idx` (`Town_town_name` ASC, `Town_district_district_name` ASC) VISIBLE,
-  CONSTRAINT `fk_middle_school_Town1`
-    FOREIGN KEY (`Town_town_name` , `Town_district_district_name`)
-    REFERENCES `university
-`.`Town` (`town_name` , `district_district_name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`middle_school`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`middle_school` (
+  `school_id` int AUTO_INCREMENT NOT NULL,
+  `school_name` VARCHAR(45) NOT NULL,
+  `phone` VARCHAR(45) NULL DEFAULT NULL,
+  `school_head_credentials` VARCHAR(45) NULL DEFAULT NULL,
+  `town_id` INT NULL,
+  PRIMARY KEY (`school_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS university.`student_has_debts` (
-  `student_student_ticket_number` INT NOT NULL,
-  `debts_subject` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`student_student_ticket_number`, `debts_subject`),
-  INDEX `fk_student_has_debts_debts1_idx` (`debts_subject` ASC) VISIBLE,
-  INDEX `fk_student_has_debts_student1_idx` (`student_student_ticket_number` ASC) VISIBLE,
-  CONSTRAINT `fk_student_has_debts_student1`
-    FOREIGN KEY (`student_student_ticket_number`)
-    REFERENCES `university
-`.`student` (`student_ticket_number`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_student_has_debts_debts1`
-    FOREIGN KEY (`debts_subject`)
-    REFERENCES `university
-`.`debts` (`subject`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+CREATE TABLE IF NOT EXISTS Khomiakov_7_44.TIMETABLE (
+  `insert_time` DATETIME NOT NULL,
+  PRIMARY KEY (`insert_time`));
+
+-- -----------------------------------------------------
+-- Table `Khomiakov_7_44`.`student_has_debts`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Khomiakov_7_44`.`student_has_debts` (
+  `debt_id` INT AUTO_INCREMENT NOT NULL,
+  `student_id` INT NOT NULL,
+  `subject_id` INT NOT NULL,
+  PRIMARY KEY (debt_id))
 ENGINE = InnoDB;
